@@ -1,0 +1,60 @@
+import { Link } from "react-router-dom";
+
+export default function Header() {
+  return (
+    <header className="bg-white py-4 shadow">
+      <div className="max-w-screen-xl px-4 mx-auto flex md:items-center md:justify-between md:gap-4 flex-wrap">
+        <Link
+          to="/"
+          className="md:order-1 font-bold text-lg text-primary-color text-center block hover:text-gray-900 transition-colors duration-300"
+        >
+          MovieSearch
+        </Link>
+
+        <button
+          type="button"
+          className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
+          aria-label="Login into your account"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 transition duration-200 ease-in-out"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+
+        <form className="md:order-2 relative text-primary-color py-4 md:py-0 flex-shrink lg:w-4/12 md:w-5/12 w-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 absolute top-2/4 left-4 transform -translate-y-1/2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            className="w-full h-11 border border-form-field-bg text-sm font-medium bg-form-field-bg rounded-full text-primary-color placeholder-primary-color pr-5 pl-12 outline-none focus:bg-white focus:border-primary-color transition-colors duration-300"
+            type="search"
+            placeholder="Search any movies or tv shows"
+            aria-label="Search"
+          />
+        </form>
+      </div>
+    </header>
+  );
+}
