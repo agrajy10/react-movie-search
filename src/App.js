@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 
 import Header from "./components/Header";
 import Home from "./components/pages/Home";
-import MovieDetails from "./components/pages/MovieDetails";
+import MovieDetails from "./components/pages/MovieDetails/MovieDetails";
 import "./styles/style.css";
 
 function App() {

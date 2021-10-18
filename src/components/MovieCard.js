@@ -8,7 +8,7 @@ export default function MovieCard({
 }) {
   return (
     <article className="relative">
-      <Link to={`/movie/${id}`}>
+      <Link to={`/movie/${id}`} aria-label={original_title}>
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           className="w-full rounded-md transform transition duration-500 hover:scale-105"

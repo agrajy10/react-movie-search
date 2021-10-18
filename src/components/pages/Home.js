@@ -18,7 +18,6 @@ export default function Home() {
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     getNextPageParam: (lastPage) => {
-      console.log(lastPage);
       if (lastPage.page !== lastPage.total_pages) {
         return lastPage.page + 1;
       }
@@ -48,16 +47,18 @@ export default function Home() {
                 });
               })}
             </div>
-            <button
-              type="button"
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              className={`block mt-8 mx-auto bg-secondary-color text-white font-bold rounded px-7 py-3 hover:bg-primary-color transition-colors duration-300 ${
-                isFetchingNextPage ? "opacity-60" : ""
-              }`}
-            >
-              {isFetchingNextPage ? "Loading...." : "Load more"}
-            </button>
+            {hasNextPage && (
+              <button
+                type="button"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className={`block mt-8 mx-auto bg-secondary-color text-white font-bold rounded px-7 py-3 hover:bg-primary-color transition-colors duration-300 ${
+                  isFetchingNextPage ? "opacity-60" : ""
+                }`}
+              >
+                {isFetchingNextPage ? "Loading...." : "Load more"}
+              </button>
+            )}
           </>
         )}
       </main>

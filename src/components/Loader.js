@@ -1,6 +1,6 @@
 export default function Loader() {
   return (
-    <div className="min-h-screen flex items-center justify-center text-primary-color">
+    <div className="h-screen flex items-center justify-center text-primary-color">
       <svg
         width="44"
         height="44"

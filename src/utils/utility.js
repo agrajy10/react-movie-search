@@ -9,32 +9,16 @@ export async function getMovies({ pageParam = 1 }) {
 
 export async function getMovieDetails(movieID) {
   const { data } = await axios(
-    `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=people`
+    `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=release_dates,external_ids,credits,content_ratings`
   );
   return data;
 }
 
-export async function getMovieCrew(movieID) {
-  const { data } = await axios(
-    `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US`
+export function getMovieRatings(release_dates = {}) {
+  return (
+    release_dates?.results?.find((x) => x.iso_3166_1 === "US")?.release_dates[0]
+      ?.certification || null
   );
-  return data;
-}
-
-export async function getIMDBRatings(imdbID) {
-  const options = {
-    method: "GET",
-    url: "https://movie-database-imdb-alternative.p.rapidapi.com/",
-    params: { r: "json", i: imdbID },
-    headers: {
-      "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com",
-      "x-rapidapi-key": "ccadeb9ceemsh2710b0890ca8553p1da814jsn22705398e947",
-    },
-  };
-
-  const res = await axios.request(options);
-  console.log(res);
-  return res.data;
 }
 
 export function formatReleaseDate(releaseDate) {
