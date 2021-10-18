@@ -8,6 +8,7 @@ import {
   getMovieDetails,
   getMovieRatings,
 } from "../../../utils/utility";
+import List from "./List";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -108,7 +109,7 @@ export default function MovieDetails() {
                     </span>
                   </a>
                 )}
-                {movieDetails.runtime && (
+                {!!movieDetails.runtime && (
                   <span className="text-primary-color font-semibold flex items-center justify-start mr-4 mb-4 whitespace-nowrap">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -161,15 +162,7 @@ export default function MovieDetails() {
                     <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
                       Genres
                     </h2>
-                    <ul className="font-medium text-md">
-                      {movieDetails.genres.map((genre) => {
-                        return (
-                          <li className="mb-2" key={genre.id}>
-                            {genre.name}
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <List items={movieDetails.genres} />
                   </div>
                 )}
                 {movieDetails.credits.cast.length && (
@@ -177,30 +170,7 @@ export default function MovieDetails() {
                     <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
                       Actors
                     </h2>
-                    <ul className="font-medium text-md">
-                      {movieDetails.credits.cast.map((actor) => {
-                        const imageURL = actor.profile_path
-                          ? `https://image.tmdb.org/t/p/w45${actor.profile_path}`
-                          : "";
-                        return (
-                          <li
-                            className="mb-4 flex items-center justify-start"
-                            key={actor.id}
-                          >
-                            {imageURL && (
-                              <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                                <img
-                                  src={imageURL}
-                                  alt={`Actor ${actor.original_name}`}
-                                  className="object-cover w-full h-full"
-                                />
-                              </div>
-                            )}
-                            {actor.original_name}
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <List items={movieDetails.credits.cast} />
                   </div>
                 )}
                 {movieDetails.credits.crew.length && (
@@ -208,32 +178,11 @@ export default function MovieDetails() {
                     <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
                       Directors
                     </h2>
-                    <ul className="font-medium text-md">
-                      {movieDetails.credits.crew
-                        .filter((member) => member.department === "Directing")
-                        .map((member) => {
-                          const imageURL = member.profile_path
-                            ? `https://image.tmdb.org/t/p/w45${member.profile_path}`
-                            : "";
-                          return (
-                            <li
-                              className="mb-4 flex items-center justify-start"
-                              key={member.id}
-                            >
-                              {imageURL && (
-                                <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                                  <img
-                                    src={imageURL}
-                                    alt={`Actor ${member.original_name}`}
-                                    className="object-cover w-full h-full"
-                                  />
-                                </div>
-                              )}
-                              {member.name}
-                            </li>
-                          );
-                        })}
-                    </ul>
+                    <List
+                      items={movieDetails.credits.crew.filter(
+                        (member) => member.department === "Directing"
+                      )}
+                    />
                   </div>
                 )}
               </div>
