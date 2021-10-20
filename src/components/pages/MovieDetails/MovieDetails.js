@@ -9,6 +9,8 @@ import {
   getMovieRatings,
 } from "../../../utils/utility";
 import List from "./List";
+import SectionHeading from "./SectionHeading";
+import IMDBRatings from "./IMDBRatings";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -95,19 +97,10 @@ export default function MovieDetails() {
               </h1>
               <div className="sm:flex sm:items-center sm:justify-start sm:flex-wrap mb-8">
                 {movieDetails.vote_average && (
-                  <a
-                    href={`https://imdb.com/title/${movieDetails.external_ids.imdb_id}/`}
-                    className="rounded-lg border-gray-300 border inline-flex items-center mr-3 mb-4"
-                  >
-                    <img
-                      src="../../imdb.svg"
-                      alt=""
-                      className="rounded-lg w-11"
-                    />
-                    <span className="px-4 font-semibold whitespace-nowrap">
-                      {`${movieDetails.vote_average}/10`}
-                    </span>
-                  </a>
+                  <IMDBRatings
+                    imdbID={movieDetails.external_ids.imdb_id}
+                    vote_average={movieDetails.vote_average}
+                  />
                 )}
                 {!!movieDetails.runtime && (
                   <span className="text-primary-color font-semibold flex items-center justify-start mr-4 mb-4 whitespace-nowrap">
@@ -150,34 +143,26 @@ export default function MovieDetails() {
               </div>
               {movieDetails.overview && (
                 <div className="mb-7">
-                  <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
-                    Plot
-                  </h2>
+                  <SectionHeading>Plot</SectionHeading>
                   <p>{movieDetails.overview}</p>
                 </div>
               )}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {movieDetails.genres.length && (
                   <div>
-                    <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
-                      Genres
-                    </h2>
+                    <SectionHeading>Genres</SectionHeading>
                     <List items={movieDetails.genres} />
                   </div>
                 )}
                 {movieDetails.credits.cast.length && (
                   <div>
-                    <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
-                      Actors
-                    </h2>
+                    <SectionHeading>Actors</SectionHeading>
                     <List items={movieDetails.credits.cast} />
                   </div>
                 )}
                 {movieDetails.credits.crew.length && (
                   <div>
-                    <h2 className="text-lg font-bold text-primary-color opacity-90 mb-3">
-                      Directors
-                    </h2>
+                    <SectionHeading>Directors</SectionHeading>
                     <List
                       items={movieDetails.credits.crew.filter(
                         (member) => member.department === "Directing"
