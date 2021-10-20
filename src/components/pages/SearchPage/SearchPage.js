@@ -1,10 +1,14 @@
-import { useInfiniteQuery } from "react-query";
-import Loader from "../Loader";
-import MovieCard from "../MovieCard";
 import { useEffect } from "react";
-import { getMovies } from "../../utils/utility";
+import { useLocation } from "react-router";
+import { useInfiniteQuery } from "react-query";
+import { getSearchQuery, getSearchMovies } from "../../../utils/utility";
+import Loader from "../../Loader";
+import MovieCard from "../../MovieCard";
 
-export default function Home() {
+export default function SearchPage() {
+  const { search } = useLocation();
+  const searchQuery = getSearchQuery(search);
+
   const {
     isLoading,
     isSuccess,
@@ -13,24 +17,30 @@ export default function Home() {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery("movies", getMovies, {
-    retry: false,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.page !== lastPage.total_pages) {
-        return lastPage.page + 1;
-      }
-      return undefined;
-    },
-  });
+  } = useInfiniteQuery(
+    "search-movies",
+    ({ pageParam = 1, query = searchQuery }) =>
+      getSearchMovies(pageParam, query),
+    {
+      enabled: !!searchQuery,
+      retry: false,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.page !== lastPage.total_pages) {
+          return lastPage.page + 1;
+        }
+        return undefined;
+      },
+    }
+  );
 
   useEffect(() => {
-    document.title = "Movie Search";
-  }, []);
+    document.title = `Search results - ${searchQuery}`;
+  }, [searchQuery]);
 
   return (
-    <>
+    <main className="max-w-screen-xl mx-auto px-4 py-14">
       <main className="px-4 py-14 max-w-screen-xl mx-auto">
         {isLoading && <Loader />}
         {isError && (
@@ -62,6 +72,6 @@ export default function Home() {
           </>
         )}
       </main>
-    </>
+    </main>
   );
 }

@@ -96,7 +96,7 @@ export default function MovieDetails() {
                 {movieDetails.original_title}
               </h1>
               <div className="sm:flex sm:items-center sm:justify-start sm:flex-wrap mb-8">
-                {movieDetails.vote_average && (
+                {!!movieDetails.vote_average && (
                   <IMDBRatings
                     imdbID={movieDetails.external_ids.imdb_id}
                     vote_average={movieDetails.vote_average}
@@ -121,7 +121,7 @@ export default function MovieDetails() {
                     {`${movieDetails.runtime} min`}
                   </span>
                 )}
-                {movieDetails.release_date && (
+                {!!movieDetails.release_date && (
                   <span className="text-primary-color font-semibold flex items-center justify-start mr-4 mb-4 whitespace-nowrap">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -141,26 +141,26 @@ export default function MovieDetails() {
                   </span>
                 )}
               </div>
-              {movieDetails.overview && (
+              {!!movieDetails.overview && (
                 <div className="mb-7">
                   <SectionHeading>Plot</SectionHeading>
                   <p>{movieDetails.overview}</p>
                 </div>
               )}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {movieDetails.genres.length && (
+                {!!movieDetails.genres && (
                   <div>
                     <SectionHeading>Genres</SectionHeading>
                     <List items={movieDetails.genres} />
                   </div>
                 )}
-                {movieDetails.credits.cast.length && (
+                {!!movieDetails.credits.cast && (
                   <div>
                     <SectionHeading>Actors</SectionHeading>
                     <List items={movieDetails.credits.cast} />
                   </div>
                 )}
-                {movieDetails.credits.crew.length && (
+                {!!movieDetails.credits.crew && (
                   <div>
                     <SectionHeading>Directors</SectionHeading>
                     <List

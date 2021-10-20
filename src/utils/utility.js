@@ -21,6 +21,18 @@ export function getMovieRatings(release_dates = {}) {
   );
 }
 
+export function getSearchQuery(location) {
+  return new URLSearchParams(location).get("q");
+}
+
+export async function getSearchMovies(pageParam, query) {
+  const { data } = await axios(
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&query=${query}&page=${pageParam}&include_adult=false`
+  );
+
+  return data;
+}
+
 export function formatReleaseDate(releaseDate) {
   const date = new Date(releaseDate);
   return `${date.getDate()} ${date.toLocaleString("en-us", {
