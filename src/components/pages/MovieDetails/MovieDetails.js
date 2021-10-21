@@ -181,11 +181,19 @@ export default function MovieDetails() {
               </div>
             </div>
             <div>
-              <img
-                src={`https://image.tmdb.org/t/p/w780${movieDetails.poster_path}`}
-                alt=""
-                className="w-full rounded-lg"
-              />
+              {movieDetails.poster_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w780${movieDetails.poster_path}`}
+                  alt={`Post of movie ${movieDetails.original_title}`}
+                  className="w-full rounded-lg"
+                />
+              ) : (
+                <img
+                  src="https://fakeimg.pl/500x750/?text=No%20Poster"
+                  alt={`Post of movie ${movieDetails.original_title}`}
+                  className="w-full rounded-lg"
+                />
+              )}
             </div>
           </div>
         )}

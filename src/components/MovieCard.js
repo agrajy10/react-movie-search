@@ -9,11 +9,19 @@ export default function MovieCard({
   return (
     <article className="relative">
       <Link to={`/movie/${id}`} aria-label={original_title}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-          className="w-full rounded-md transform transition duration-500 hover:scale-105"
-          alt={original_title}
-        />
+        {poster_path ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            className="w-full rounded-md transform transition duration-500 hover:scale-105"
+            alt={original_title}
+          />
+        ) : (
+          <img
+            src="https://fakeimg.pl/500x750/?text=No%20Poster"
+            className="w-full rounded-md transform transition duration-500 hover:scale-105"
+            alt={original_title}
+          />
+        )}
         <div className="pt-4">
           <h3 className="text-gray-900 font-bold text-lg leading-normal">
             {original_title}
