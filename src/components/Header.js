@@ -11,7 +11,6 @@ export default function Header() {
         >
           MovieSearch
         </Link>
-        <SearchForm />
         <button
           type="button"
           className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
@@ -32,6 +31,9 @@ export default function Header() {
             />
           </svg>
         </button>
+        <div className="md:order-2 py-4 md:py-0 flex-shrink lg:w-4/12 md:w-5/12 w-full">
+          <SearchForm />
+        </div>
       </div>
     </header>
   );

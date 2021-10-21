@@ -25,7 +25,7 @@ export default function SearchForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="md:order-2 relative text-primary-color py-4 md:py-0 flex-shrink lg:w-4/12 md:w-5/12 w-full"
+      className="relative text-primary-color"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

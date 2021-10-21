@@ -40,15 +40,19 @@ export default function SearchPage() {
   }, [searchQuery]);
 
   return (
-    <main className="max-w-screen-xl mx-auto px-4 py-14">
-      <main className="px-4 py-14 max-w-screen-xl mx-auto">
-        {isLoading && <Loader />}
-        {isError && (
+    <main className="px-4 py-14 max-w-screen-xl min-h-screen mx-auto">
+      {isLoading && <Loader />}
+      {isError && (
+        <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
+          An error occurred. Try again later.
+        </div>
+      )}
+      {isSuccess &&
+        (data.pages[0].total_results === 0 ? (
           <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
-            An error occurred. Try again later.
+            No results found. Try a different keyword
           </div>
-        )}
-        {isSuccess && (
+        ) : (
           <>
             <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 md:gap-4 gap-2">
               {data.pages.map((page) => {
@@ -70,8 +74,7 @@ export default function SearchPage() {
               </button>
             )}
           </>
-        )}
-      </main>
+        ))}
     </main>
   );
 }
