@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { formatReleaseDate } from "../utils/utility";
+import { formatDate } from "../utils/utility";
 export default function MovieCard({
   id,
   original_title,
@@ -19,7 +19,7 @@ export default function MovieCard({
             {original_title}
           </h3>
           <span className="text-gray-500 text-sm">
-            {formatReleaseDate(release_date)}
+            {formatDate(release_date)}
           </span>
         </div>
       </Link>

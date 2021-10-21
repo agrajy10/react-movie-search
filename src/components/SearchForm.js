@@ -17,7 +17,6 @@ export default function SearchForm() {
 
   useEffect(() => {
     if (location.pathname === "/") {
-      console.log('---');
       setValue("");
     }
   }, [location.pathname]);

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useQuery } from "react-query";
 import Loader from "../../Loader";
 import {
-  formatReleaseDate,
+  formatDate,
   getMovieDetails,
   getMovieRatings,
 } from "../../../utils/utility";
@@ -137,7 +137,7 @@ export default function MovieDetails() {
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    {formatReleaseDate(movieDetails.release_date)}
+                    {formatDate(movieDetails.release_date)}
                   </span>
                 )}
               </div>
@@ -151,7 +151,15 @@ export default function MovieDetails() {
                 {!!movieDetails.genres && (
                   <div>
                     <SectionHeading>Genres</SectionHeading>
-                    <List items={movieDetails.genres} />
+                    <ul className="font-medium text-md">
+                      {movieDetails.genres.map((genre) => {
+                        return (
+                          <li className="mb-2" key={genre.id}>
+                            {genre.name}
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
                 )}
                 {!!movieDetails.credits.cast && (
