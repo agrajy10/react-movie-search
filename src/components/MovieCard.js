@@ -18,9 +18,11 @@ export default function MovieCard({
           <h3 className="text-gray-900 font-bold text-lg leading-normal">
             {original_title}
           </h3>
-          <span className="text-gray-500 text-sm">
-            {formatDate(release_date)}
-          </span>
+          {!!formatDate(release_date) && (
+            <span className="text-gray-500 text-sm">
+              {formatDate(release_date)}
+            </span>
+          )}
         </div>
       </Link>
       <button className="inline-flex items-center justify-center bg-gray-900 bg-opacity-7 text-white w-8 h-8 rounded-full absolute top-3 right-3 z-10 hover:bg-secondary-color transition-colors ease-in-out duration-300">

@@ -41,6 +41,10 @@ export async function getSearchMovies(pageParam, query) {
 }
 
 export function formatDate(releaseDate) {
+  if (releaseDate === "") {
+    return null;
+  }
+
   const date = new Date(releaseDate);
   return `${date.getDate()} ${date.toLocaleString("en-us", {
     month: "long",
