@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
-import { formatDate, getPersonDetails } from "../../../utils/utility";
+import { getPersonDetails } from "../../../utils/utility";
 import Loader from "../../Loader";
 import MovieCard from "../../MovieCard";
-import Info from "./Info";
+import Pagination from "./Pagination";
+import PersonCard from "./PersonCard";
+
 export default function PersonDetails() {
   const [creditType, setCreditType] = useState("cast");
+  const [postsPerPage] = useState(15);
+  const [currentPage, setCurrentPage] = useState(1);
+  let currentPosts, indexOfFirstPost, indexOfLastPost;
   const { id: personID } = useParams();
   const {
     data: personDetails,
@@ -21,9 +26,28 @@ export default function PersonDetails() {
     retry: false,
     staleTime: Infinity,
   });
+
   function handleChange(e) {
     setCreditType(e.target.value);
+    setCurrentPage(1);
   }
+
+  if (isSuccess) {
+    indexOfLastPost = postsPerPage * currentPage;
+    indexOfFirstPost = indexOfLastPost - postsPerPage;
+    if (creditType === "cast") {
+      currentPosts = personDetails.movie_credits.cast.slice(
+        indexOfFirstPost,
+        indexOfLastPost
+      );
+    } else {
+      currentPosts = personDetails.movie_credits.crew.slice(
+        indexOfFirstPost,
+        indexOfLastPost
+      );
+    }
+  }
+
   return (
     <main className="max-w-screen-xl mx-auto px-4 py-14">
       {isLoading && <Loader />}
@@ -35,35 +59,7 @@ export default function PersonDetails() {
       {isSuccess && (
         <div className="grid grid-cols-12 gap-6 items-start">
           <aside className="col-span-12 lg:col-span-4 md:col-span-5 sm:col-span-6 bg-white rounded-lg overflow-hidden shadow text-gray-600 text-sm">
-            <div className="h-96 w-full mb-3">
-              {personDetails.profile_path ? (
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${personDetails.profile_path}`}
-                  alt={personDetails.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <img
-                  src="https://fakeimg.pl/450x450/"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
-
-            <div className="p-5">
-              <h1 className="text-primary-color text-3xl font-bold mb-3">
-                {personDetails.name}
-              </h1>
-              {!!personDetails.birthday && (
-                <p className="mb-3 text-base">
-                  Date of birth : {formatDate(personDetails.birthday)}
-                </p>
-              )}
-              {!!personDetails.biography && (
-                <Info biography={personDetails.biography} />
-              )}
-            </div>
+            <PersonCard {...personDetails} />
           </aside>
           <div className="col-span-12 lg:col-span-8 md:col-span-7 sm:col-span-6">
             <div className="text-right">
@@ -77,29 +73,28 @@ export default function PersonDetails() {
                 <option value="crew">Directed</option>
               </select>
             </div>
-            {creditType === "cast" ? (
-              personDetails.movie_credits.cast.length > 0 ? (
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {personDetails.movie_credits.cast.map((movie) => {
-                    return <MovieCard key={movie.id} {...movie} />;
-                  })}
-                </div>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {currentPosts.map((movie) => {
+                return <MovieCard key={movie.id} {...movie} />;
+              })}
+            </div>
+            <div className="text-center">
+              {creditType === "cast" ? (
+                <Pagination
+                  totalPosts={personDetails.movie_credits.cast.length}
+                  postsPerPage={postsPerPage}
+                  currentPage={currentPage}
+                  paginate={setCurrentPage}
+                />
               ) : (
-                <p className="px-4 py-3  text-blue-600 bg-blue-100 rounded-md border border-blue-600">
-                  No movies to show
-                </p>
-              )
-            ) : personDetails.movie_credits.crew.length > 0 ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {personDetails.movie_credits.crew.map((movie) => {
-                  return <MovieCard key={movie.id} {...movie} />;
-                })}
-              </div>
-            ) : (
-              <p className="px-4 py-3  text-blue-600 bg-blue-100 rounded-md border border-blue-600">
-                No movies to show
-              </p>
-            )}
+                <Pagination
+                  totalPosts={personDetails.movie_credits.crew.length}
+                  postsPerPage={postsPerPage}
+                  currentPage={currentPage}
+                  paginate={setCurrentPage}
+                />
+              )}
+            </div>
           </div>
         </div>
       )}
