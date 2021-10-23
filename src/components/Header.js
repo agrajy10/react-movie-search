@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SearchForm from "./SearchForm";
 
-export default function Header() {
+export default function Header({ setIsLoginOpen }) {
   return (
     <header className="bg-white py-4 shadow">
       <div className="max-w-screen-xl px-4 mx-auto flex md:items-center md:justify-between md:gap-4 flex-wrap">
@@ -12,6 +12,7 @@ export default function Header() {
           MovieSearch
         </Link>
         <button
+          onClick={() => setIsLoginOpen(true)}
           type="button"
           className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
           aria-label="Login into your account"

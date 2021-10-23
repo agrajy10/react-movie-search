@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal-backdrop {
+    @apply fixed inset-0 bg-black opacity-30 z-20;
+}
+
+.modal {
+    @apply fixed inset-0 block z-30 overflow-x-hidden overflow-y-auto;
+}
+
+.modal-dialog {
+    @apply max-w-md flex items-center justify-center mx-auto my-4;
+    min-height: calc(100vh - theme('spacing.16'));
+}

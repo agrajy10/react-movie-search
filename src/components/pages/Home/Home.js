@@ -52,7 +52,7 @@ export default function Home() {
                 type="button"
                 onClick={() => fetchNextPage()}
                 disabled={isFetchingNextPage}
-                className={`block mt-8 mx-auto bg-secondary-color text-white font-bold rounded px-7 py-3 hover:bg-primary-color transition-colors duration-300 ${
+                className={`block mt-8 mx-auto bg-secondary-color text-white font-bold rounded px-7 py-3 hover:bg-gray-900 transition-colors duration-300 ${
                   isFetchingNextPage ? "opacity-60" : ""
                 }`}
               >

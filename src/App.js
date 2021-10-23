@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Header from "./components/Header";
@@ -7,12 +8,23 @@ import MovieDetails from "./components/pages/MovieDetails/MovieDetails";
 import SearchPage from "./components/pages/SearchPage/SearchPage";
 import "./styles/style.css";
 import PersonDetails from "./components/pages/PersonDetails/PersonDetails";
+import Modal from "./components/Modal";
+import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
 function App() {
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header setIsLoginOpen={setIsLoginOpen} />
+        <Modal open={isLoginOpen} close={() => setIsLoginOpen(false)}>
+          <LoginForm />
+        </Modal>
+        <Modal open={isSignupOpen} close={() => setIsSignupOpen(false)}>
+          <SignupForm />
+        </Modal>
         <Switch>
           <Route path="/" exact>
             <Home />

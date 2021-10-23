@@ -9,7 +9,7 @@ import PersonCard from "./PersonCard";
 
 export default function PersonDetails() {
   const [creditType, setCreditType] = useState("cast");
-  const [postsPerPage] = useState(15);
+  const [postsPerPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
   let currentPosts, indexOfFirstPost, indexOfLastPost;
   const { id: personID } = useParams();
