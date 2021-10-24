@@ -48,9 +48,9 @@ export default function SearchPage() {
       )}
       {isSuccess &&
         (data.pages[0].total_results === 0 ? (
-          <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
+          <Alert className="danger">
             No results found. Try a different keyword
-          </div>
+          </Alert>
         ) : (
           <>
             <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 md:gap-4 gap-2">

@@ -11,6 +11,7 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   function handleChange(e) {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -21,12 +22,14 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
     setIsSubmitted(true);
     createUserWithEmailAndPassword(firebaseAuth, values.email, values.password)
       .then(() => {
-        closeSignupModal();
+        if (error) setError("");
+        setSuccess("Signed up successfully!");
+        setTimeout(() => {
+          closeSignupModal();
+        }, 1000);
       })
       .catch((error) => {
         setError(error.message);
-      })
-      .finally(() => {
         setIsSubmitted(false);
       });
   }
@@ -36,7 +39,8 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
       <h2 className="text-center text-3xl font-bold text-gray-800 mb-3">
         Sign up
       </h2>
-      {error && <Alert className="danger">{error}</Alert>}
+      {error && <Alert className="danger sm my-4">{error}</Alert>}
+      {success && <Alert className="success sm my-4">{success}</Alert>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="fullname" className="block font-semibold mb-2">
           Name

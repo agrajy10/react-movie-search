@@ -18,20 +18,22 @@ export default function Header({ setIsLoginOpen }) {
         </Link>
         {user ? (
           <button
-            className="w-8 h-8 rounded-full overflow-hidden md:order-3 ml-auto md:ml-0"
+            className="w-9 h-9 rounded-full overflow-hidden md:order-3 ml-auto md:ml-0 border-2 border-gray-900 hover:border-secondary-color transition-colors"
             type="button"
             onClick={() => signOut(firebaseAuth)}
+            title="Logout"
           >
             <img
               src="https://fakeimg.pl/300/"
               className="w-full h-full object-cover"
-              alt={user.displayName}
+              alt=""
             />
           </button>
         ) : (
           <button
             onClick={() => setIsLoginOpen(true)}
             type="button"
+            title="Login or Signup"
             className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
             aria-label="Login into your account"
           >
