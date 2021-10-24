@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { firebaseAuth } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { UserContext } from "../lib/context";
+import Alert from "./Alert";
 
 export default function SignupForm({ closeSignupModal, openLoginModal }) {
   const [values, setValues] = useState({
@@ -36,11 +36,7 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
       <h2 className="text-center text-3xl font-bold text-gray-800 mb-3">
         Sign up
       </h2>
-      {error && (
-        <div className="px-4 py-2 mt-6 mb-4 text-sm text-red-600 bg-red-100 rounded-md border border-red-600">
-          {error}
-        </div>
-      )}
+      {error && <Alert className="danger">{error}</Alert>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="fullname" className="block font-semibold mb-2">
           Name

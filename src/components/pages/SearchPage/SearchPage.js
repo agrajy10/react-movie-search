@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "react-query";
 import { getSearchQuery, getSearchMovies } from "../../../utils/utility";
 import Loader from "../../Loader";
 import MovieCard from "../../MovieCard";
+import Alert from "../../Alert";
 
 export default function SearchPage() {
   const { search } = useLocation();
@@ -43,9 +44,7 @@ export default function SearchPage() {
     <main className="px-4 py-14 max-w-screen-xl min-h-screen mx-auto">
       {isLoading && <Loader />}
       {isError && (
-        <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
-          An error occurred. Try again later.
-        </div>
+        <Alert className="danger">An error occurred. Try again later.</Alert>
       )}
       {isSuccess &&
         (data.pages[0].total_results === 0 ? (

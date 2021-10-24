@@ -1,3 +1,4 @@
+import Alert from "../../Alert";
 export default function Pagination({
   currentPage,
   postsPerPage,
@@ -34,9 +35,5 @@ export default function Pagination({
     );
   }
 
-  return (
-    <p className="px-4 py-3  text-blue-600 bg-blue-100 rounded-md border border-blue-600">
-      No movies to show
-    </p>
-  );
+  return <Alert className="info">No movies to show</Alert>;
 }

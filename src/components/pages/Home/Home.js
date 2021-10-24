@@ -3,6 +3,7 @@ import Loader from "../../Loader";
 import MovieCard from "../../MovieCard";
 import { useEffect } from "react";
 import { getMovies } from "../../../utils/utility";
+import Alert from "../../Alert";
 
 export default function Home() {
   const {
@@ -34,9 +35,7 @@ export default function Home() {
       <main className="px-4 py-14 max-w-screen-xl mx-auto">
         {isLoading && <Loader />}
         {isError && (
-          <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
-            An error occurred. Try again later.
-          </div>
+          <Alert className="danger">An error occurred. Try again later.</Alert>
         )}
         {isSuccess && (
           <>

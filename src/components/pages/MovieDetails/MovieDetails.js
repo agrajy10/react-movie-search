@@ -11,6 +11,7 @@ import {
 import List from "./List";
 import SectionHeading from "./SectionHeading";
 import IMDBRatings from "./IMDBRatings";
+import Alert from "../../Alert";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -42,9 +43,7 @@ export default function MovieDetails() {
       <main className="max-w-screen-xl mx-auto px-4 py-14">
         {isLoading && <Loader />}
         {isError && (
-          <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
-            An error occurred. Try again later.
-          </div>
+          <Alert className="danger">An error occurred. Try again later.</Alert>
         )}
         {isSuccess && (
           <div className="relative items-start sm:grid grid-cols-2 gap-7">

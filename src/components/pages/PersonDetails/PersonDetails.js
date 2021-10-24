@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import { getPersonDetails } from "../../../utils/utility";
+import Alert from "../../Alert";
 import Loader from "../../Loader";
 import MovieCard from "../../MovieCard";
 import Pagination from "./Pagination";
@@ -52,9 +53,7 @@ export default function PersonDetails() {
     <main className="max-w-screen-xl mx-auto px-4 py-14">
       {isLoading && <Loader />}
       {isError && (
-        <div className="px-4 py-3 text-base text-red-600 bg-red-100 rounded-md border border-red-600">
-          An error occurred. Try again later.
-        </div>
+        <Alert className="danger">An error occurred. Try again later.</Alert>
       )}
       {isSuccess && (
         <div className="grid grid-cols-12 gap-6 items-start">
