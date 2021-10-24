@@ -25,3 +25,5 @@ yarn-error.log*
 
 
 src/styles/style.css
+
+src/lib/firebase.js
