@@ -1,4 +1,4 @@
-export default function LoginForm({ openSignupModal, closeLoginModal }) {
+export default function LoginForm() {
   return (
     <>
       <h2 className="text-center text-3xl font-bold text-gray-800 mb-3">
@@ -34,10 +34,6 @@ export default function LoginForm({ openSignupModal, closeLoginModal }) {
           <p>
             Don't have an account?{" "}
             <button
-              onClick={() => {
-                closeLoginModal();
-                openSignupModal();
-              }}
               type="button"
               className="text-secondary-color font-semibold hover:underline"
             >

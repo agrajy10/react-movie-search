@@ -1,12 +1,7 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { signOut } from "@firebase/auth";
-import { UserContext } from "../lib/context";
-import { firebaseAuth } from "../lib/firebase";
 import SearchForm from "./SearchForm";
 
 export default function Header({ setIsLoginOpen }) {
-  const { user } = useContext(UserContext);
   return (
     <header className="bg-white py-4 shadow">
       <div className="max-w-screen-xl px-4 mx-auto flex md:items-center md:justify-between md:gap-4 flex-wrap">
@@ -16,41 +11,27 @@ export default function Header({ setIsLoginOpen }) {
         >
           MovieSearch
         </Link>
-        {user ? (
-          <button
-            className="w-8 h-8 rounded-full overflow-hidden md:order-3 ml-auto md:ml-0"
-            type="button"
-            onClick={() => signOut(firebaseAuth)}
+        <button
+          onClick={() => setIsLoginOpen(true)}
+          type="button"
+          className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
+          aria-label="Login into your account"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 transition duration-200 ease-in-out"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <img
-              src="https://fakeimg.pl/300/"
-              className="w-full h-full object-cover"
-              alt={user.displayName}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
-          </button>
-        ) : (
-          <button
-            onClick={() => setIsLoginOpen(true)}
-            type="button"
-            className="hover:text-secondary-color w-8 h-8 md:order-3 ml-auto md:ml-0"
-            aria-label="Login into your account"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 transition duration-200 ease-in-out"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </button>
-        )}
+          </svg>
+        </button>
         <div className="md:order-2 py-4 md:py-0 flex-shrink lg:w-4/12 md:w-5/12 w-full">
           <SearchForm />
         </div>
