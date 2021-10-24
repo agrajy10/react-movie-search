@@ -19,12 +19,6 @@ function App() {
     <Router>
       <div className="App">
         <Header setIsLoginOpen={setIsLoginOpen} />
-        <Modal open={isLoginOpen} close={() => setIsLoginOpen(false)}>
-          <LoginForm />
-        </Modal>
-        <Modal open={isSignupOpen} close={() => setIsSignupOpen(false)}>
-          <SignupForm />
-        </Modal>
         <Switch>
           <Route path="/" exact>
             <Home />
@@ -40,6 +34,12 @@ function App() {
           </Route>
         </Switch>
         <Footer />
+        <Modal open={isLoginOpen} close={() => setIsLoginOpen(false)}>
+          <LoginForm openSignupModal={() => setIsSignupOpen(true)} closeLoginModal={() => setIsLoginOpen(false)} />
+        </Modal>
+        <Modal open={isSignupOpen} close={() => setIsSignupOpen(false)}>
+          <SignupForm closeSignupModal={() => setIsSignupOpen(false)} openLoginModal={() => setIsLoginOpen(true)} />
+        </Modal>
       </div>
       <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
     </Router>
