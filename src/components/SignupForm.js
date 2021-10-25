@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { firebaseAuth } from "../lib/firebase";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import Alert from "./Alert";
 
 export default function SignupForm({ closeSignupModal, openLoginModal }) {
@@ -17,21 +17,27 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
     setValues({ ...values, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitted(true);
-    createUserWithEmailAndPassword(firebaseAuth, values.email, values.password)
-      .then(() => {
-        if (error) setError("");
-        setSuccess("Signed up successfully!");
-        setTimeout(() => {
-          closeSignupModal();
-        }, 1000);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setIsSubmitted(false);
+    try {
+      await createUserWithEmailAndPassword(
+        firebaseAuth,
+        values.email,
+        values.password
+      );
+      await updateProfile(firebaseAuth.currentUser, {
+        displayName: values.fullname,
       });
+      if (error) setError("");
+      setSuccess("Signed up successfully!");
+      setTimeout(() => {
+        closeSignupModal();
+      }, 1000);
+    } catch (error) {
+      setError(error.message);
+      setIsSubmitted(false);
+    }
   }
 
   return (

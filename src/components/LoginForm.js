@@ -13,21 +13,24 @@ export default function LoginForm({ openSignupModal, closeLoginModal }) {
     setValues({ ...values, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitted(true);
-    signInWithEmailAndPassword(firebaseAuth, values.email, values.password)
-      .then(() => {
-        if (error) setError("");
-        setSuccess("Logged in successfully!");
-        setTimeout(() => {
-          closeLoginModal();
-        }, 1000);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setIsSubmitted(false);
-      });
+    try {
+      await signInWithEmailAndPassword(
+        firebaseAuth,
+        values.email,
+        values.password
+      );
+      if (error) setError("");
+      setSuccess("Logged in successfully!");
+      setTimeout(() => {
+        closeLoginModal();
+      }, 1000);
+    } catch (error) {
+      setError(error.message);
+      setIsSubmitted(false);
+    }
   }
   return (
     <>
@@ -70,7 +73,7 @@ export default function LoginForm({ openSignupModal, closeLoginModal }) {
           Login
         </button>
         <div className="font-semibold text-center text-primary-color">
-          <button className="text-sm font-semibold  hover:underline mb-2">
+          <button type="button" className="text-sm font-semibold  hover:underline mb-2">
             Forgot password?
           </button>
           <p>

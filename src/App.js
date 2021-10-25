@@ -11,6 +11,7 @@ import PersonDetails from "./components/pages/PersonDetails/PersonDetails";
 import Modal from "./components/Modal";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
+import Favourites from "./components/pages/Favourites/Favourites";
 
 function App() {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -29,16 +30,25 @@ function App() {
           <Route path="/person/:id">
             <PersonDetails />
           </Route>
+          <Route path="/favourites">
+            <Favourites />
+          </Route>
           <Route path="/search">
             <SearchPage />
           </Route>
         </Switch>
         <Footer />
         <Modal open={isLoginOpen} close={() => setIsLoginOpen(false)}>
-          <LoginForm openSignupModal={() => setIsSignupOpen(true)} closeLoginModal={() => setIsLoginOpen(false)} />
+          <LoginForm
+            openSignupModal={() => setIsSignupOpen(true)}
+            closeLoginModal={() => setIsLoginOpen(false)}
+          />
         </Modal>
         <Modal open={isSignupOpen} close={() => setIsSignupOpen(false)}>
-          <SignupForm closeSignupModal={() => setIsSignupOpen(false)} openLoginModal={() => setIsLoginOpen(true)} />
+          <SignupForm
+            closeSignupModal={() => setIsSignupOpen(false)}
+            openLoginModal={() => setIsLoginOpen(true)}
+          />
         </Modal>
       </div>
       <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>

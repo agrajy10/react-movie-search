@@ -17,18 +17,35 @@ export default function Header({ setIsLoginOpen }) {
           MovieSearch
         </Link>
         {user ? (
-          <button
-            className="w-9 h-9 rounded-full overflow-hidden md:order-3 ml-auto md:ml-0 border-2 border-gray-900 hover:border-secondary-color transition-colors"
-            type="button"
-            onClick={() => signOut(firebaseAuth)}
-            title="Logout"
-          >
-            <img
-              src="https://fakeimg.pl/300/"
-              className="w-full h-full object-cover"
-              alt=""
-            />
-          </button>
+          <div className="md:order-3 ml-auto md:ml-0 flex items-center">
+            <Link
+              to="/favourites"
+              className="text-base mr-5 font-bold bg-secondary-color hover:bg-gray-900 text-white rounded px-4 py-2 transition-colors"
+            >
+              My favourites
+            </Link>
+            <button
+              className="hover:text-secondary-color transition-colors"
+              type="button"
+              onClick={() => signOut(firebaseAuth)}
+              title="Logout"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          </div>
         ) : (
           <button
             onClick={() => setIsLoginOpen(true)}
