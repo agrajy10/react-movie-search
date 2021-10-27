@@ -12,6 +12,7 @@ import Modal from "./components/Modal";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import Favourites from "./components/pages/Favourites/Favourites";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -30,9 +31,7 @@ function App() {
           <Route path="/person/:id">
             <PersonDetails />
           </Route>
-          <Route path="/favourites">
-            <Favourites />
-          </Route>
+          <PrivateRoute component={Favourites} path="/favourites" />
           <Route path="/search">
             <SearchPage />
           </Route>
