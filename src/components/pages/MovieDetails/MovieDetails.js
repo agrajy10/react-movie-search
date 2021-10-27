@@ -14,6 +14,7 @@ import {
   formatDate,
   getMovieDetails,
   getMovieRatings,
+  isMovieFavourite,
 } from "../../../utils/utility";
 import List from "./List";
 import SectionHeading from "./SectionHeading";
@@ -22,7 +23,7 @@ import Alert from "../../Alert";
 import FavouriteButton from "../../FavouriteButton";
 import { UserContext } from "../../../lib/context";
 import { firebaseDB } from "../../../lib/firebase";
-export default function MovieDetails() {
+export default function MovieDetails({ setIsLoginOpen }) {
   const [isFavourite, setIsFavourite] = useState(false);
   const { user } = useContext(UserContext);
   const { id } = useParams();
@@ -51,21 +52,16 @@ export default function MovieDetails() {
 
   useEffect(() => {
     if (user && isSuccess) {
-      const getMovies = async () => {
-        const docRef = doc(firebaseDB, "favourite-movies", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data().movies;
-          if (data.length) {
-            data.filter(
-              (favouriteMovie) => favouriteMovie.movieID === movieDetails.id
-            ).length && setIsFavourite(true);
-          }
-        }
-      };
-      getMovies();
+      async function check() {
+        const favouriteCheck = await isMovieFavourite(
+          user.uid,
+          movieDetails.id
+        );
+        if (favouriteCheck) setIsFavourite(true);
+      }
+      check();
     }
-  }, [user, isSuccess]);
+  }, [user, isSuccess, movieDetails]);
 
   async function toggleFavourite() {
     const data = {
@@ -135,7 +131,7 @@ export default function MovieDetails() {
                 </span>
               )}
               <FavouriteButton
-                toggleFavourite={toggleFavourite}
+                handleClick={user ? toggleFavourite : setIsLoginOpen}
                 isFavourite={isFavourite}
                 className="absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10"
               />

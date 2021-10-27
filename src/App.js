@@ -25,7 +25,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/movie/:id">
-            <MovieDetails />
+            <MovieDetails setIsLoginOpen={() => setIsLoginOpen(!isLoginOpen)} />
           </Route>
           <Route path="/person/:id">
             <PersonDetails />

@@ -1,12 +1,12 @@
 export default function FavouriteButton({
   isFavourite,
-  toggleFavourite,
+  handleClick,
   className,
 }) {
   return (
     <>
       <button
-        onClick={toggleFavourite}
+        onClick={handleClick}
         className={`inline-flex items-center justify-center bg-opacity-7 text-white w-8 h-8 rounded-full transition-colors ease-in-out duration-300 ${className} ${
           isFavourite
             ? "bg-secondary-color"
