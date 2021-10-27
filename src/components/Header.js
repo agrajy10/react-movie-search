@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "@firebase/auth";
-import { UserContext } from "../lib/context";
+import { AuthContext } from "../contexts/authContext";
 import { firebaseAuth } from "../lib/firebase";
 import SearchForm from "./SearchForm";
 
 export default function Header({ setIsLoginOpen }) {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthContext);
   return (
     <header className="bg-white py-4 shadow">
       <div className="max-w-screen-xl px-4 mx-auto flex md:items-center md:justify-between md:gap-4 flex-wrap">

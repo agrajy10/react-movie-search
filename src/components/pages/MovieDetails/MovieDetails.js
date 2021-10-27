@@ -1,31 +1,30 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { useQuery } from "react-query";
 import {
+  doc,
   updateDoc,
   getDoc,
   arrayUnion,
   arrayRemove,
-  doc,
 } from "firebase/firestore";
 import Loader from "../../Loader";
 import {
   formatDate,
   getMovieDetails,
   getMovieRatings,
-  isMovieFavourite,
 } from "../../../utils/utility";
 import List from "./List";
 import SectionHeading from "./SectionHeading";
 import IMDBRatings from "./IMDBRatings";
 import Alert from "../../Alert";
 import FavouriteButton from "../../FavouriteButton";
-import { UserContext } from "../../../lib/context";
+import { AuthContext } from "../../../contexts/authContext";
 import { firebaseDB } from "../../../lib/firebase";
 export default function MovieDetails({ setIsLoginOpen }) {
+  const { user, isUserLoading } = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(false);
-  const { user } = useContext(UserContext);
   const { id } = useParams();
   const {
     data: movieDetails,
@@ -39,57 +38,59 @@ export default function MovieDetails({ setIsLoginOpen }) {
   });
 
   useEffect(() => {
-    document.title = isLoading
-      ? "Loading..."
-      : `${movieDetails.original_title} - Movie Search`;
-  }, [movieDetails, isLoading]);
-
-  useEffect(() => {
     window.scrollTo({
       top: 0,
     });
   }, []);
 
   useEffect(() => {
-    if (user && isSuccess) {
-      async function check() {
-        const favouriteCheck = await isMovieFavourite(
-          user.uid,
-          movieDetails.id
-        );
-        if (favouriteCheck) setIsFavourite(true);
+    if (user && movieDetails) {
+      async function isMovieInFavourites() {
+        const docRef = doc(firebaseDB, "favourite-movies", user.uid);
+        try {
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data().movies;
+            data.filter((movie) => movie.id === movieDetails.id).length &&
+              setIsFavourite(true);
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       }
-      check();
+      isMovieInFavourites();
     }
-  }, [user, isSuccess, movieDetails]);
+  }, [user, movieDetails]);
+
+  useEffect(() => {
+    document.title = isLoading
+      ? "Loading..."
+      : `${movieDetails.original_title} - Movie Search`;
+  }, [movieDetails, isLoading]);
 
   async function toggleFavourite() {
     const data = {
-      movieID: movieDetails.id,
-      title: movieDetails.original_title,
+      id: movieDetails.id,
+      original_title: movieDetails.original_title,
       release_date: movieDetails.release_date,
+      poster_path: movieDetails.poster_path,
     };
-    if (!isFavourite) {
-      try {
+    try {
+      if (!isFavourite) {
         const docRef = doc(firebaseDB, "favourite-movies", user.uid);
         await updateDoc(docRef, {
           movies: arrayUnion(data),
         });
         setIsFavourite(true);
-        console.log("success");
-      } catch (error) {
-        console.log(error.message);
+      } else {
+        const docRef = doc(firebaseDB, "favourite-movies", user.uid);
+        await updateDoc(docRef, {
+          movies: arrayRemove(data),
+        });
+        setIsFavourite(false);
       }
-    } else {
-      const docRef = doc(firebaseDB, "favourite-movies", user.uid);
-      await updateDoc(docRef, {
-        movies: arrayRemove(data),
-      });
-      setIsFavourite(false);
-      try {
-      } catch (error) {
-        console.log(error.message);
-      }
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -130,11 +131,19 @@ export default function MovieDetails({ setIsLoginOpen }) {
                   {getMovieRatings(movieDetails.release_dates)}
                 </span>
               )}
-              <FavouriteButton
-                handleClick={user ? toggleFavourite : setIsLoginOpen}
-                isFavourite={isFavourite}
-                className="absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10"
-              />
+              {user ? (
+                <FavouriteButton
+                  handleClick={toggleFavourite}
+                  isFavourite={isFavourite}
+                  className="absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10"
+                />
+              ) : (
+                <FavouriteButton
+                  handleClick={setIsLoginOpen}
+                  isFavourite={false}
+                  className="absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10"
+                />
+              )}
               <h1 className=" text-gray-800 md:text-6xl text-5xl font-bold mb-8">
                 {movieDetails.original_title}
               </h1>

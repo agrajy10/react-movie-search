@@ -1,12 +1,12 @@
 import { useState, createContext } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
-import { firebaseAuth, firebaseDB } from "./firebase";
+import { firebaseAuth } from "../lib/firebase";
+import { getUserMovies } from "../utils/utility";
 
-const UserContext = createContext(null);
+const AuthContext = createContext(null);
 
-const UserProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  //const [userMovies, setUserMovies] = useState([]);
   const [isUserLoading, setisUserLoading] = useState(true);
 
   onAuthStateChanged(firebaseAuth, async (user) => {
@@ -18,10 +18,10 @@ const UserProvider = ({ children }) => {
     }
   });
   return (
-    <UserContext.Provider value={{ user, isUserLoading }}>
+    <AuthContext.Provider value={{ user, isUserLoading }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export { UserContext, UserProvider };
+export { AuthContext, AuthProvider };

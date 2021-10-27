@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { firebaseAuth, firebaseDB } from "../lib/firebase";
+import { firebaseAuth } from "../lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import { firebaseDB } from "../lib/firebase";
 import Alert from "./Alert";
 
 export default function SignupForm({ closeSignupModal, openLoginModal }) {

@@ -1,6 +1,4 @@
 import axios from "axios";
-import { getDoc, doc } from "firebase/firestore";
-import { firebaseDB } from "../lib/firebase";
 
 export async function getMovies({ pageParam = 1 }) {
   const { data } = await axios.get(
@@ -40,20 +38,6 @@ export async function getSearchMovies(pageParam, query) {
   );
 
   return data;
-}
-
-export async function isMovieFavourite(userID, movieID) {
-  const docRef = doc(firebaseDB, "favourite-movies", userID);
-  try {
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data().movies;
-      return data.filter((movie) => movie.movieID === movieID).length;
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-  return false;
 }
 
 export function formatDate(releaseDate) {

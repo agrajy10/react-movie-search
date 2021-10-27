@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/utility";
-import FavouriteButton from "./FavouriteButton";
 export default function MovieCard({
   id,
   original_title,
   poster_path,
   release_date,
 }) {
-  const [isFavourite, setIsFavourite] = useState(false);
   return (
     <article className="relative">
       <Link to={`/movie/${id}`} aria-label={original_title}>
@@ -36,11 +33,6 @@ export default function MovieCard({
           )}
         </div>
       </Link>
-      <FavouriteButton
-        isFavourite={isFavourite}
-        setIsFavourite={setIsFavourite}
-        className="absolute top-3 right-3 z-10"
-      />
     </article>
   );
 }
