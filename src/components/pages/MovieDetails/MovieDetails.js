@@ -1,7 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { useQuery } from "react-query";
+import {
+  updateDoc,
+  getDoc,
+  arrayUnion,
+  arrayRemove,
+  doc,
+} from "firebase/firestore";
 import Loader from "../../Loader";
 import {
   formatDate,
@@ -12,8 +19,12 @@ import List from "./List";
 import SectionHeading from "./SectionHeading";
 import IMDBRatings from "./IMDBRatings";
 import Alert from "../../Alert";
-
+import FavouriteButton from "../../FavouriteButton";
+import { UserContext } from "../../../lib/context";
+import { firebaseDB } from "../../../lib/firebase";
 export default function MovieDetails() {
+  const [isFavourite, setIsFavourite] = useState(false);
+  const { user } = useContext(UserContext);
   const { id } = useParams();
   const {
     data: movieDetails,
@@ -37,6 +48,54 @@ export default function MovieDetails() {
       top: 0,
     });
   }, []);
+
+  useEffect(() => {
+    if (user && isSuccess) {
+      const getMovies = async () => {
+        const docRef = doc(firebaseDB, "favourite-movies", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data().movies;
+          if (data.length) {
+            data.filter(
+              (favouriteMovie) => favouriteMovie.movieID === movieDetails.id
+            ).length && setIsFavourite(true);
+          }
+        }
+      };
+      getMovies();
+    }
+  }, [user, isSuccess]);
+
+  async function toggleFavourite() {
+    const data = {
+      movieID: movieDetails.id,
+      title: movieDetails.original_title,
+      release_date: movieDetails.release_date,
+    };
+    if (!isFavourite) {
+      try {
+        const docRef = doc(firebaseDB, "favourite-movies", user.uid);
+        await updateDoc(docRef, {
+          movies: arrayUnion(data),
+        });
+        setIsFavourite(true);
+        console.log("success");
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      const docRef = doc(firebaseDB, "favourite-movies", user.uid);
+      await updateDoc(docRef, {
+        movies: arrayRemove(data),
+      });
+      setIsFavourite(false);
+      try {
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
 
   return (
     <>
@@ -75,22 +134,11 @@ export default function MovieDetails() {
                   {getMovieRatings(movieDetails.release_dates)}
                 </span>
               )}
-              <button className="inline-flex items-center justify-center bg-gray-900 bg-opacity-7 text-white w-8 h-8 rounded-full absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10 hover:bg-secondary-color transition-colors ease-in-out duration-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
-              </button>
+              <FavouriteButton
+                toggleFavourite={toggleFavourite}
+                isFavourite={isFavourite}
+                className="absolute lg:top-14 lg:right-14 md:top-10 md:right-10 top-7 right-7 z-10"
+              />
               <h1 className=" text-gray-800 md:text-6xl text-5xl font-bold mb-8">
                 {movieDetails.original_title}
               </h1>

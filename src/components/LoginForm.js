@@ -73,7 +73,10 @@ export default function LoginForm({ openSignupModal, closeLoginModal }) {
           Login
         </button>
         <div className="font-semibold text-center text-primary-color">
-          <button type="button" className="text-sm font-semibold  hover:underline mb-2">
+          <button
+            type="button"
+            className="text-sm font-semibold  hover:underline mb-2"
+          >
             Forgot password?
           </button>
           <p>

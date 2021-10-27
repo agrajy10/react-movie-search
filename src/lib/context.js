@@ -1,13 +1,15 @@
 import { useState, createContext } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
-import { firebaseAuth } from "./firebase";
+import { firebaseAuth, firebaseDB } from "./firebase";
 
 const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  //const [userMovies, setUserMovies] = useState([]);
   const [isUserLoading, setisUserLoading] = useState(true);
-  onAuthStateChanged(firebaseAuth, (user) => {
+
+  onAuthStateChanged(firebaseAuth, async (user) => {
     if (user) {
       setUser(user);
       setisUserLoading(false);

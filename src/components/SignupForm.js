@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { firebaseAuth } from "../lib/firebase";
+import { firebaseAuth, firebaseDB } from "../lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 import Alert from "./Alert";
 
 export default function SignupForm({ closeSignupModal, openLoginModal }) {
@@ -29,6 +30,12 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
       await updateProfile(firebaseAuth.currentUser, {
         displayName: values.fullname,
       });
+      await setDoc(
+        doc(firebaseDB, "favourite-movies", firebaseAuth.currentUser.uid),
+        {
+          movies: [],
+        }
+      );
       if (error) setError("");
       setSuccess("Signed up successfully!");
       setTimeout(() => {
