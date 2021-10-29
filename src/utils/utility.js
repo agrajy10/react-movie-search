@@ -1,5 +1,12 @@
 import axios from "axios";
-
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
+import { firebaseDB } from "../lib/firebase";
 export async function getMovies({ pageParam = 1 }) {
   const { data } = await axios.get(
     `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&page=${pageParam}`
@@ -38,6 +45,45 @@ export async function getSearchMovies(pageParam, query) {
   );
 
   return data;
+}
+
+export async function isMovieInFavourites(userID, movieID) {
+  const docRef = doc(firebaseDB, "favourite-movies", userID);
+  try {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data().movies;
+      return data.filter((movie) => movie.id === movieID).length;
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export async function addMovieInFavourites(userID, movie) {
+  const docRef = doc(firebaseDB, "favourite-movies", userID);
+  try {
+    await updateDoc(docRef, {
+      movies: arrayUnion(movie),
+    });
+    return true;
+  } catch (error) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function removeMovieFromFavourites(userID, movie) {
+  try {
+    const docRef = doc(firebaseDB, "favourite-movies", userID);
+    await updateDoc(docRef, {
+      movies: arrayRemove(movie),
+    });
+    return true;
+  } catch (error) {
+    console.log(error.message);
+    return false;
+  }
 }
 
 export function formatDate(releaseDate) {

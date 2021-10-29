@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { firebaseDB } from "../lib/firebase";
 import Alert from "./Alert";
-
+import InputField from "./InputField";
 export default function SignupForm({ closeSignupModal, openLoginModal }) {
   const [values, setValues] = useState({
     fullname: "",
@@ -56,41 +56,26 @@ export default function SignupForm({ closeSignupModal, openLoginModal }) {
       {error && <Alert className="danger sm my-4">{error}</Alert>}
       {success && <Alert className="success sm my-4">{success}</Alert>}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="fullname" className="block font-semibold mb-2">
-          Name
-        </label>
-        <input
+        <InputField
+          label="Name"
           id="fullname"
-          name="fullname"
           type="text"
-          className="w-full h-12 mb-5 rounded text-primary-color transition-colors border border-gray-300 bg-form-field-bg px-4 py-2 placeholder-gray-600 outline-none focus:bg-white focus:border-primary-color"
-          required
           value={values.fullname}
-          onChange={handleChange}
+          handleChange={handleChange}
         />
-        <label htmlFor="email" className="block font-semibold mb-2">
-          Email
-        </label>
-        <input
+        <InputField
+          label="Email"
           id="email"
           type="email"
-          name="email"
-          className="w-full h-12 mb-5 rounded text-primary-color transition-colors border border-gray-300 bg-form-field-bg px-4 py-2 placeholder-gray-600 outline-none focus:bg-white focus:border-primary-color"
-          required
           value={values.email}
-          onChange={handleChange}
+          handleChange={handleChange}
         />
-        <label htmlFor="password" className="block font-semibold mb-2">
-          Password
-        </label>
-        <input
+        <InputField
+          label="Password"
           id="password"
           type="password"
-          name="password"
-          className="w-full h-12 mb-7 rounded text-primary-color transition-colors border border-gray-300 bg-form-field-bg px-4 py-2 placeholder-gray-600 outline-none focus:bg-white focus:border-primary-color"
-          required
           value={values.password}
-          onChange={handleChange}
+          handleChange={handleChange}
         />
         <button
           disabled={isSubmitted}

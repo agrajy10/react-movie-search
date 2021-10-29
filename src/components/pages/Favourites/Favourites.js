@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/authContext";
 import { firebaseDB } from "../../../lib/firebase";
 import MovieCard from "../../MovieCard";
 import Loader from "../../Loader";
+import MainContainer from "../../MainContainer";
 export default function Favourites() {
   const [isLoading, setIsLoading] = useState(true);
   const { user, isUserLoading } = useContext(AuthContext);
@@ -28,15 +29,17 @@ export default function Favourites() {
     }
   }, [user, isUserLoading]);
   return (
-    <main className="px-4 py-14 max-w-screen-xl mx-auto">
-      {isLoading && <Loader />}
-      {!!userMovies.length && (
-        <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 md:gap-4 gap-2">
-          {userMovies.map((movie) => {
-            return <MovieCard {...movie} key={movie.id} />;
-          })}
-        </div>
-      )}
+    <main>
+      <MainContainer className="py-14">
+        {isLoading && <Loader />}
+        {!!userMovies.length && (
+          <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 md:gap-4 gap-2">
+            {userMovies.map((movie) => {
+              return <MovieCard {...movie} key={movie.id} />;
+            })}
+          </div>
+        )}
+      </MainContainer>
     </main>
   );
 }

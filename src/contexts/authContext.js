@@ -1,7 +1,6 @@
 import { useState, createContext } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import { firebaseAuth } from "../lib/firebase";
-import { getUserMovies } from "../utils/utility";
 
 const AuthContext = createContext(null);
 
