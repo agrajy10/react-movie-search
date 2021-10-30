@@ -4,7 +4,11 @@ import { firebaseAuth } from "../lib/firebase";
 import Alert from "./Alert";
 import InputField from "./InputField";
 
-export default function LoginForm({ openSignupModal, closeLoginModal }) {
+export default function LoginForm({
+  openPasswordModal,
+  openSignupModal,
+  closeLoginModal,
+}) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -65,6 +69,10 @@ export default function LoginForm({ openSignupModal, closeLoginModal }) {
         </button>
         <div className="font-semibold text-center text-primary-color">
           <button
+            onClick={() => {
+              closeLoginModal();
+              openPasswordModal();
+            }}
             type="button"
             className="text-sm font-semibold  hover:underline mb-2"
           >

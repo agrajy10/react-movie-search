@@ -13,14 +13,16 @@ import PrivateRoute from "./components/PrivateRoute";
 import Modal from "./components/Modal";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
+import RestPasswordForm from "./components/RestPasswordForm";
 
 function App() {
   const [loginModal, setLoginModal] = useState(false);
-  const [signupModal, setIssignupModal] = useState(false);
+  const [signupModal, setSignupModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
   const closeLoginModal = () => setLoginModal(false);
   const openLoginModal = () => setLoginModal(true);
-  const closeSignupModal = () => setIssignupModal(false);
-  const openSignupModal = () => setIssignupModal(true);
+  const closeSignupModal = () => setSignupModal(false);
+  const openSignupModal = () => setSignupModal(true);
   return (
     <Router>
       <div className="App">
@@ -43,6 +45,7 @@ function App() {
         <Footer />
         <Modal open={loginModal} close={closeLoginModal}>
           <LoginForm
+            openPasswordModal={() => setPasswordModal(true)}
             openSignupModal={openSignupModal}
             closeLoginModal={closeLoginModal}
           />
@@ -52,6 +55,9 @@ function App() {
             closeSignupModal={closeSignupModal}
             openLoginModal={openLoginModal}
           />
+        </Modal>
+        <Modal open={passwordModal} close={() => setPasswordModal(false)}>
+          <RestPasswordForm />
         </Modal>
       </div>
       <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
