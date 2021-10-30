@@ -43,7 +43,7 @@ export default function SearchPage() {
 
   return (
     <main>
-      <MainContainer className="min-h-screen">
+      <MainContainer className="min-h-screen py-14">
         {isLoading && <Loader />}
         {isError && (
           <Alert className="danger">An error occurred. Try again later.</Alert>
